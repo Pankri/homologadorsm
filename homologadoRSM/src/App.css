@@ -1,0 +1,337 @@
+/* IMPORTAMOS LAS FUENTES DE GOOGLE FONTS */
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&family=JetBrains+Mono:wght@500&display=swap");
+
+:root {
+  /* --- PALETA MODO CLARO (Por defecto) --- */
+  --bg: #f3f4f8; /* Gris azulado muy suave */
+  --card-bg: #ffffff; /* Blanco puro */
+  --text: #1e1f40; /* Azul índigo oscuro (para contraste) */
+  --text-light: #64748b; /* Gris medio */
+  --border: #d1d5db;
+
+  /* Acentos de tu imagen */
+  --primary: #ff4757; /* Coral/Rosa vibrante */
+  --primary-hover: #ff6b81;
+  --secondary: #ffa502; /* Ámbar/Amarillo */
+
+  /* Colores de filas de datos */
+  --mk-bg: #eef2ff; /* Azul muy lavanda */
+  --mk-border: #c7d2fe;
+  --sap-bg: #fff1f2; /* Rosado muy pálido */
+  --sap-border: #fecdd3;
+
+  --shadow: 0 4px 20px -5px rgba(30, 31, 64, 0.1);
+}
+
+/* --- DETECCIÓN AUTOMÁTICA DE MODO OSCURO --- */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1f40; /* EL ÍNDIGO DE TU IMAGEN */
+    --card-bg: #2b2c58; /* Un tono más claro que el fondo */
+    --text: #ffffff; /* Texto blanco */
+    --text-light: #a5a6c5; /* Lila grisáceo */
+    --border: #424370; /* Borde sutil */
+
+    /* En modo oscuro, los fondos de las filas deben ser sutiles */
+    --mk-bg: rgba(79, 70, 229, 0.15);
+    --mk-border: #4f46e5;
+    --sap-bg: rgba(255, 71, 87, 0.1);
+    --sap-border: #ff4757;
+
+    --shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  /* Usamos la fuente 'Outfit' similar a la de la imagen */
+  font-family: "Outfit", -apple-system, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-title {
+  text-align: center;
+  color: var(--text); /* En modo oscuro será blanco */
+  margin: 15px 0 30px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+/* --- BUSCADOR ESTILO "TECH" --- */
+.search-wrapper {
+  position: relative;
+  margin-bottom: 25px;
+  z-index: 50;
+}
+
+.search-box-container {
+  display: flex;
+  align-items: center;
+  background: var(--card-bg); /* Cambia según el modo */
+  border: 2px solid var(--border);
+  border-radius: 16px; /* Más redondeado */
+  padding: 8px 16px;
+  box-shadow: var(--shadow);
+  transition: all 0.2s ease;
+}
+
+.search-box-container:focus-within {
+  border-color: var(--primary); /* Se pone rosa al escribir */
+  box-shadow: 0 0 0 4px rgba(255, 71, 87, 0.2); /* Resplandor rosa */
+}
+
+.search-icon {
+  color: var(--text-light);
+  margin-right: 12px;
+  width: 20px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 10px 0;
+  font-size: 17px;
+  outline: none;
+  background: transparent;
+  color: var(--text); /* Se adapta al modo oscuro/claro */
+  font-weight: 500;
+}
+
+.search-input::placeholder {
+  color: var(--text-light);
+  opacity: 0.7;
+}
+
+.clear-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  width: 30px;
+}
+
+/* --- LISTA FLOTANTE --- */
+.suggestions-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: var(--card-bg);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 16px;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; /* Alineación superior para textos largos */
+  transition: background 0.1s;
+  height: auto;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.suggestion-item:active {
+  background-color: var(--mk-bg); /* Feedback visual */
+}
+
+.sug-text {
+  display: flex;
+  flex-direction: column;
+  padding-right: 10px;
+  max-width: 350px;
+}
+
+.sug-main {
+  font-weight: 500;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.sug-sub {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  margin-top: 6px;
+  font-family: "JetBrains Mono", monospace; /* Fuente de código */
+}
+
+.lucide-chevron-right {
+  width: 20px;
+}
+
+/* --- TARJETA DE RESULTADO --- */
+.result-area {
+  flex: 1;
+}
+
+.loading-text {
+  text-align: center;
+  color: var(--text-light);
+  margin-top: 50px;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.card-title {
+  margin: 0 0 20px 0;
+  font-size: 1.4rem;
+  color: var(--text); /* Blanco en modo oscuro */
+  text-align: center;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.data-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 16px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  border-width: 1px;
+  border-style: solid;
+}
+
+.data-code {
+  display: grid;
+  grid-template-columns: 40% auto 30%;
+  width: 100%;
+  align-items: center;
+}
+
+.data-desc {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.mk-row {
+  background-color: var(--mk-bg);
+  border-color: var(--mk-border);
+}
+
+.sap-row {
+  background-color: var(--sap-bg);
+  border-color: var(--sap-border);
+}
+
+.label {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--text);
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.code-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.sap-extra-desc {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px dashed var(--border);
+  color: var(--text-light);
+  text-align: center;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+/* --- BOTÓN COPIAR (Estilo Icono Flotante) --- */
+.copy-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-light);
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  margin-left: 8px;
+}
+
+/* Al tocar o pasar el mouse */
+.copy-btn:active,
+.copy-btn:hover {
+  background-color: var(--primary); /* Fondo Rosa */
+  color: white; /* Icono Blanco */
+  transform: scale(1.15);
+  box-shadow: 0 4px 10px rgba(255, 71, 87, 0.4);
+}
+
+/* Animación de entrada suave */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Scrollbar personalizada para que combine */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--border);
+  border-radius: 4px;
+}
