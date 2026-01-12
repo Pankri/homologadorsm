@@ -1,0 +1,21 @@
+{
+  "name": "Buscador de Códigos",
+  "short_name": "Buscador",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e1f40",
+  "theme_color": "#1e1f40",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
